@@ -1,0 +1,13 @@
+# Ignorar dependências
+node_modules/
+
+# Ignorar logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Ignorar sistema operacional
+.DS_Store
+
+# Ignorar ambiente (caso use dotenv)
+.env
