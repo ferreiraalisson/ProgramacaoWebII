@@ -33,7 +33,16 @@ Este repositório contém:
 - Utilização da biblioteca **Nodemon** para escuta ativa e reinício automático do servidor.
 - Configuração inicial do projeto com o **`package.json`**.
 - Construção básica de um servidor com um **endpoint padrão**.
-- **Refatoração do projeto**: separação do código em arquivos distintos, com a criação do arquivo `server.js` para isolar o processo de escuta (`listen`) e deixar o `app.js` responsável apenas pela configuração da aplicação.
+- Criação de mock para uma execução básica do servidor e testes de API com **postman**
+- **Refatoração do projeto**: separação do código em arquivos distintos, com a criação do arquivo `server.js` para isolar o processo de escuta (`listen`) e deixar o `app.js` responsável apenas pela configuração das ações da aplicação.
+
+## 📘 Aula 2 – Criação de rotas e CRUD de API Rest
+
+- Criação de endpoints para consulta, envio, exclusão e atualização de dados do mock
+- Explicação e uso de propriedades como params e body
+- Uso de funções auxiliares para consulta (ideia de for)
+- Testes de API com **Postman**
+- Criação de banco de dados MySQL (    
 
 
 ## 🧑‍🏫 Professor(a)
