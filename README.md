@@ -44,10 +44,6 @@ Este repositório contém:
 - Testes de API com **Postman**
 - Criação de banco de dados MySQL (    
 
-
-## 🧑‍🏫 Professor(a)
-*Informe aqui o nome do professor, se desejar.*
-
 ## 👨‍🎓 Autor
 
 Este repositório é mantido por:
