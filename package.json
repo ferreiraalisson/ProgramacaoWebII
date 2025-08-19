@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type":"module", 
+  "type": "module",
   "_comentType": "type: module - transforma em CommonJS para ES Module (forma atualizada) permite utilizar o import no arquivo",
   "_comentario": "Esse projeto usa Express e Nodemon para desenvolvimento",
   "scripts": {
@@ -14,11 +14,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "mysql": "^2.18.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
   }
 }
-
-

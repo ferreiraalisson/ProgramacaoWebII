@@ -19,6 +19,7 @@ const cursos = [
 function buscarCursosPorId(id) {
     return cursos.filter(curso => curso.id == id)
 }
+
 // retorna um index
 function buscarIndexCurso(id){
     return cursos.findIndex( curso => curso.id == id)
@@ -66,7 +67,6 @@ app.delete('/cursos/excluir/:id', (req, res) => {
     cursos.splice(index, 1)
     res.status(200).send( `O curso com id ${req.params.id} excluído com sucesso!`)
 })
-
 
 export default app
 
