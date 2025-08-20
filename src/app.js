@@ -1,18 +1,12 @@
 //CRIANDO SERVIDOR REFATORADO
 
 import express from 'express' //framework para copilar o JS para rodar no node
+import conexao from '../infra/conexao.js'
+
 const app = express()
 
 // indicar para o express
 app.use(express.json())
-
-//mock
-const cursos = [
-    {id: 1, disciplina: 'ADS'},
-    {id: 2, disciplina: 'ADS'},
-    {id: 3, disciplina: 'ADS'},
-    {id: 4, disciplina: 'ADS'},
-]
 
 // função auxiliar - verifica no array (mock)
 //retorna um objeto
@@ -38,8 +32,17 @@ app.get('/', (req, res) => { // req = riquest (requisição) e res = response (r
     res.send('Enviado para o servidor cuscuz')
 })
 
+//ajustar a consulta para o banco - consulta refatorada
 app.get('/cursos', (req, res) => {
-    res.status(200).send(cursos)
+    // res.status(200).send(cursos)
+    const sql = "SELECT * FROM curso;"
+    conexao.query(sql, (error, result) => {
+        if(error) {
+            console.log(error)
+        }else{
+            res.status(200).json(result)
+        }
+    })
 })
 
 app.get('/cursos/:id', (req, res) => {

@@ -8,6 +8,9 @@ const conexao = msyql.createConnection({
     database: 'cursosdb'
 })
 
+//Refatoração
+conexao.connect()
+
 // Aplicamos o export para utilizar o objeto em outro arquivo
 
 export default conexao
