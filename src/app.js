@@ -1,7 +1,8 @@
 //CRIANDO SERVIDOR REFATORADO
 
 import express from 'express' //framework para copilar o JS para rodar no node
-import conexao from '../infra/conexao.js'
+import conexao from './app/database/conexao.js'
+import cursoController from './app/controllers/cursoController.js'
 
 const app = express()
 
@@ -47,18 +48,8 @@ app.get('/', (req, res) => { // req = riquest (requisição) e res = response (r
     res.send('Enviado para o servidor cuscuz')
 })
 
-//ajustar a consulta para o banco - consulta refatorada
-app.get('/cursos', (req, res) => {
-    // res.status(200).send(cursos)
-    const sql = "SELECT * FROM curso;"
-    conexao.query(sql, (error, result) => {
-        if(error) {
-            console.log(error)
-        }else{
-            res.status(200).json(result)
-        }
-    })
-})
+//ajustar a consulta para o controller
+app.get('/cursos', cursoController.index)
 
 // REFATORADO
 app.get('/cursos/:id', (req, res) => {
