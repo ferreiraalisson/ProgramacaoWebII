@@ -11,14 +11,14 @@ app.use(express.json())
 
 // função auxiliar - verifica no array (mock)
 //retorna um objeto
-function buscarCursosPorId(id) {
-    return cursos.filter(curso => curso.id == id)
-}
+// function buscarCursosPorId(id) {
+//     return cursos.filter(curso => curso.id == id)
+// }
 
 // retorna um index
-function buscarIndexCurso(id){
-    return cursos.findIndex( curso => curso.id == id)
-}
+// function buscarIndexCurso(id){
+//     return cursos.findIndex( curso => curso.id == id)
+// }
 
 //cadastrar cursos
 
@@ -27,20 +27,24 @@ function buscarIndexCurso(id){
 //     res.status(200).send('Seleção cadastrada com sucesso')
 // })
 
-app.post('/cursos', (req, res) => {
-    const novoCurso = req.body;
+// CADASTRAR REFATORADO PARA O BANCO ESTRUTURADO PARA O MVC
+app.post('/cursos', cursoController.store);
 
-    // não usa o id pois é autoincrement
-    const sql = "INSERT INTO curso (disciplina) VALUES (?);"
+// CADASTRAR REFATORADO PARA O BANCO
+// app.post('/cursos', (req, res) => {
+//     const novoCurso = req.body;
 
-    conexao.query(sql, [novoCurso.disciplina], (error, input) =>{
-        if (error){
-            console.log(error)
-        }else{
-            res.status(201).json({id: input.insertId}) //insertId para exibir o id gerado
-        }
-    })
-})
+//     // não usa o id pois é autoincrement
+//     const sql = "INSERT INTO curso (disciplina) VALUES (?);"
+
+//     conexao.query(sql, [novoCurso.disciplina], (error, input) =>{
+//         if (error){
+//             console.log(error)
+//         }else{
+//             res.status(201).json({id: input.insertId}) //insertId para exibir o id gerado
+//         }
+//     })
+// })
 
 // consultas
 // criando uma rota default = endpoint default
@@ -48,10 +52,11 @@ app.get('/', (req, res) => { // req = riquest (requisição) e res = response (r
     res.send('Enviado para o servidor cuscuz')
 })
 
+// CONSULTA REFATORADA COM ESTRUTURA MVC
 //ajustar a consulta para o controller
 app.get('/cursos', cursoController.index)
 
-// REFATORADO
+// REFATORAMENTO DE CONSULTA POR ID SEM MVC
 app.get('/cursos/:id', (req, res) => {
     let id = req.params.id // transforma o id em parametros
     
@@ -71,33 +76,36 @@ app.get('/cursos/:id', (req, res) => {
 
 })
 
-app.get('/cursosads/:id', (req, res) => {
-    res.json(buscarCursosPorId(req.params.id)) 
-})
+// app.get('/cursosads/:id', (req, res) => {
+//     res.json(buscarCursosPorId(req.params.id)) 
+// })
 
-//put - upgrade - REFATORADO
 
-app.put('/cursos/:id', (req, res) => {
-    let id = req.params.id;
-    const { disciplina } = req.body;
+//put - upgrade - REFATORADO PARA O BANCO COM ESTRUTURA MVC
+app.put('/curso/:id', cursoController.update)
 
-    const sql = "UPDATE curso SET disciplina = ? WHERE id = ?;";
+//put - upgrade - REFATORADO PARA O BANCO
+// app.put('/cursos/:id', (req, res) => {
+//     let id = req.params.id;
+//     const { disciplina } = req.body;
 
-    conexao.query(sql, [disciplina, id], (error, result) => {
-        if (error) {
-            console.log(error);
-            res.status(500).json({ erro: "Erro ao atualizar curso." });
-        }
+//     const sql = "UPDATE curso SET disciplina = ? WHERE id = ?;";
 
-        if (result.affectedRows > 0) {
-            res.status(200).json({ mensagem: "Curso atualizado com sucesso." });
-        } else {
-            res.status(404).json({ mensagem: "Curso não encontrado." });
-        }
-    });
-});
+//     conexao.query(sql, [disciplina, id], (error, result) => {
+//         if (error) {
+//             console.log(error);
+//             res.status(500).json({ erro: "Erro ao atualizar curso." });
+//         }
 
-//delete
+//         if (result.affectedRows > 0) {
+//             res.status(200).json({ mensagem: "Curso atualizado com sucesso." });
+//         } else {
+//             res.status(404).json({ mensagem: "Curso não encontrado." });
+//         }
+//     });
+// });
+
+//delete inicial mocado
 
 // app.delete('/cursos/excluir/:id', (req, res) => {
 //     let index = buscarIndexCurso(req.params.id)
@@ -106,33 +114,37 @@ app.put('/cursos/:id', (req, res) => {
 //     res.status(200).send( `O curso com id ${req.params.id} excluído com sucesso!`)
 // })
 
-//REFATORADO
-app.delete('/cursos/excluir/:id', (req, res) => {
-    let id = req.params.id;
+
+// REFATORADO PARA BANCO COM A ESTRUTURA MVC
+app.delete('/cursos/excluir/:id', cursoController.delete)
+
+//REFATORADO PARA O BANCO
+// app.delete('/cursos/excluir/:id', (req, res) => {
+//     let id = req.params.id;
     
-    const sqlId = "SELECT * FROM curso WHERE id = ?;"
-    conexao.query(sqlId, [id], (error, results) => {
-        if (error) {
-            console.error(error);
-            return res.status(500).json({ erro: "Erro ao verificar curso." });
-        }
+//     const sqlId = "SELECT * FROM curso WHERE id = ?;"
+//     conexao.query(sqlId, [id], (error, results) => {
+//         if (error) {
+//             console.error(error);
+//             return res.status(500).json({ erro: "Erro ao verificar curso." });
+//         }
 
-        if (results.length === 0) {
-            // Curso não encontrado
-            return res.status(404).json({ mensagem: "Curso não encontrado." });
-        }
+//         if (results.length === 0) {
+//             // Curso não encontrado
+//             return res.status(404).json({ mensagem: "Curso não encontrado." });
+//         }
 
-        const del = "DELETE FROM curso WHERE id = ?";
-        conexao.query(del, [id], (error, result) => {
-            if (error) {
-                console.error(error);
-                return res.status(500).json({ erro: "Erro ao excluir curso." });
-            }
+//         const del = "DELETE FROM curso WHERE id = ?";
+//         conexao.query(del, [id], (error, result) => {
+//             if (error) {
+//                 console.error(error);
+//                 return res.status(500).json({ erro: "Erro ao excluir curso." });
+//             }
 
-            return res.status(200).send(`O curso com id ${id} foi excluído com sucesso!`);
-        });
-    });
-})   
+//             return res.status(200).send(`O curso com id ${id} foi excluído com sucesso!`);
+//         });
+//     });
+// })   
 
 
 export default app
