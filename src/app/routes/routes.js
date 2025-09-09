@@ -22,5 +22,5 @@ router.delete('/cursos/excluir/:id', (req, res) =>  cursoController.delete(res, 
 
 export default router
 
-// executar o server npm run dev - run dev foi definido pelo packjage.json e instalado a biblioteca nodemon para atualizar o server sem cair ele
+// executar o server npm run dev - run dev foi definido pelo packjage.json e instalado a biblioteca nodemon para atualizar o server sem cair ele.
 
